@@ -102,7 +102,8 @@ describe('User Cheese Boards', () => {
             let davidsBoard = await Board.create({type: 'Cheese',
             description: 'Best cheeses ever',
             rating: 10})
-    
+
+            // bbe - Best Board Ever
             let foundUser = await User.findAll()
             let bbe = foundUser[0]
             // console.log(bbe);
