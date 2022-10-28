@@ -104,11 +104,13 @@ describe('User Cheese Boards', () => {
         let betsyBoard = findBoard[0]
         await betsyBoard.addCheese(newCheese)
         await betsyBoard.addCheese(newCheese2)
-        console.log(findBoard);
+        // console.log(findBoard);
 
         let getBetsyBoard = await betsyBoard.getCheeses()
         expect(getBetsyBoard.length).toBe(2)
     })
+
+    //  One-to-many
     //  test('Multiple Boards can be added to a User', async() => {
     //     let newestUser = await User.create({name: 'David Todd', email: 'david.todd@multiverse.io'})
     //     let newBoard = await Board.create({type:'Cheese', description: 'Three cheeses is usually enough, and the most weve ever done is five cheeses (thats a BIG cheese board).', rating: 7})
@@ -123,9 +125,28 @@ describe('User Cheese Boards', () => {
     //     let getDavidsBoard = await davidsBoard.getBoards()
     //     expect(getDavidsBoard[0].name).toBe('Cheese')
     // })
-    
-    //  One-to-many
-    
 
     // Eager Loading
+    test('Eager Loading', async() => { 
+        let findBoard = await Board.findAll()
+        let cheeses = await Cheese.findAll()
+
+        let newBoard = await Board.create({type: 'David Todds Board',
+            description: 'Davids amazing cheese board',
+            rating: 10})
+
+        await newBoard.addCheese(cheeses[0])
+        await newBoard.addCheese(cheeses[1])
+        await newBoard.addCheese(cheeses[2])
+
+        let davidsBoard = await Board.findAll({
+            include: [
+                {model: Cheese, as: 'cheeses'}
+            ]
+        })
+
+        console.log(davidsBoard[2].type);
+        expect(davidsBoard[2].type).toBe('David Todds Board')
+        expect(davidsBoard[2].cheeses.length).toBe(3)
+    })
 })
