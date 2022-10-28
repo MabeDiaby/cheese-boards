@@ -94,4 +94,38 @@ describe('User Cheese Boards', () => {
         expect(deleCheese.title).toBe('Caramel Brownies')
      })
 
+     //  Many-to-many
+     test('Board and Cheese models with a Many-to-Many relationship', async() => {
+        let newestBoard = await Board.create({type: 'Brownie', description: 'A chocolate brownie or simply a brownie is a square or rectangular chocolate baked confection. Brownies come in a variety of forms and may be either fudgy or cakey, depending on their density. Brownies often, but not always, have a glossy "skin" on their upper crust.', rating: 10})
+        let newCheese = await Cheese.create({title: 'Caramel Brownies', description: 'Caramel brownies are made by stuffing fudgy brownies with caramel sauce in the middle and topping it off with a caramel drizzle. This type of brownie provides layers of chocolate and caramel in every delectable bite.'})
+        let newCheese2 = await Cheese.create({title: 'Caramel2 Brownies', description: 'Caramel brownies are made by stuffing fudgy brownies with caramel sauce in the middle and topping it off with a caramel drizzle. This type of brownie provides layers of chocolate and caramel in every delectable bite.'})
+
+        let findBoard = await Board.findAll()
+        let betsyBoard = findBoard[0]
+        await betsyBoard.addCheese(newCheese)
+        await betsyBoard.addCheese(newCheese2)
+        console.log(findBoard);
+
+        let getBetsyBoard = await betsyBoard.getCheeses()
+        expect(getBetsyBoard.length).toBe(2)
+    })
+    //  test('Multiple Boards can be added to a User', async() => {
+    //     let newestUser = await User.create({name: 'David Todd', email: 'david.todd@multiverse.io'})
+    //     let newBoard = await Board.create({type:'Cheese', description: 'Three cheeses is usually enough, and the most weve ever done is five cheeses (thats a BIG cheese board).', rating: 7})
+    //     let newBoard2 = await Board.create({type: 'Crackers and Breads', description: 'A board with a buttery cracker, a very thin mild cracker, and a seedy, grainy cracker', rating: 10})
+
+    //     let findBoard = await Board.findAll()
+    //     let davidsBoard = findBoard[0]
+    //     await davidsBoard.addBoard(newBoard)
+    //     await davidsBoard.addBoard(newBoard2)
+    //     console.log(findBoard);
+
+    //     let getDavidsBoard = await davidsBoard.getBoards()
+    //     expect(getDavidsBoard[0].name).toBe('Cheese')
+    // })
+    
+    //  One-to-many
+    
+
+    // Eager Loading
 })
