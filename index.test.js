@@ -46,5 +46,28 @@ describe('User Cheese Boards', () => {
         expect(findCheese[0].title).toBe('Manchego')
       })
 
+    // U - UPDATE
+    test('Can Update User', async() => { 
+        const findUser = await User.findAll()
+        const updateUser = await findUser[0].update({name: 'Mamragbe Diaby'})
 
+        expect(updateUser.name).toBe('Mamragbe Diaby')
+     })
+
+     test('Can Update Board', async() => { 
+        const findBoard = await Board.findAll()
+        const updateBoard = await findBoard[0].update({type: 'Charcuterie'})
+
+        expect(updateBoard.type).toBe('Charcuterie')
+      })
+
+      test('Can Update Cheese', async() => { 
+        const findCheese = await Cheese.findAll()
+        const updateCheese = await findCheese[0].update({title: 'Triple Cream Brie', description: 'Triple Crème Brie is created using traditional French cheese making techniques that start with local milk, added cream, and a unique blend of cultures. The result is a brie style cheese that is smooth and creamy with slightly sweet, milky flavors and a velvety white rind.'})
+
+        expect(updateCheese.title).toBe('Triple Cream Brie')
+        expect(updateCheese.description).toBe('Triple Crème Brie is created using traditional French cheese making techniques that start with local milk, added cream, and a unique blend of cultures. The result is a brie style cheese that is smooth and creamy with slightly sweet, milky flavors and a velvety white rind.')
+       })
+
+    
 })
