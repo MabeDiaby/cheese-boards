@@ -8,14 +8,14 @@ describe('User Cheese Boards', () => {
     })
 
     // C - CREATE
-    test('Can create User', async() => { 
+    test('Can Create User', async() => { 
         const createUser = await User.create({name: 'Mamragbe', email: 'mdiaby@cisco.com'})
 
         expect(createUser.name).toBe('Mamragbe')
         expect(createUser.email).toBe('mdiaby@cisco.com')
       })
 
-    test('Can create Board', async() => { 
+    test('Can Create Board', async() => { 
         const createBoard = await Board.create({type: 'Best cheses ever', description: 'OMG so many cheese', rating: 10})
 
         expect(createBoard.type).toBe('Best cheses ever')
@@ -23,7 +23,7 @@ describe('User Cheese Boards', () => {
         expect(createBoard.rating).toBe(10)
      })
 
-     test('Can create Cheese', async() => {
+     test('Can Create Cheese', async() => {
         const createCheese = await Cheese.create({title: 'Manchego', description: 'Manchego has a firm and compact consistency and a buttery texture, often containing small, unevenly distributed air pockets. The colour of the cheese varies from white to ivory-yellow, and the inedible rind from yellow to brownish-beige.'})
 
         expect(createCheese.title).toBe('Manchego')
@@ -31,9 +31,67 @@ describe('User Cheese Boards', () => {
      })
 
     // R - READ
+    test('Can Read User', async() => { 
+        const findUser = await User.findAll()
+        expect(findUser[0].name).toBe('Mamragbe')
+     })
+
+     test('Can Read Board', async() => {
+        const findBoard = await Board.findAll()
+        expect(findBoard[0].type).toBe('Best cheses ever')
+     })
+
+     test('Can Read Cheese', async() => { 
+        const findCheese = await Cheese.findAll()
+        expect(findCheese[0].title).toBe('Manchego')
+      })
 
     // U - UPDATE
-    
+    test('Can Update User', async() => { 
+        const findUser = await User.findAll()
+        const updateUser = await findUser[0].update({name: 'Mamragbe Diaby'})
+
+        expect(updateUser.name).toBe('Mamragbe Diaby')
+     })
+
+     test('Can Update Board', async() => { 
+        const findBoard = await Board.findAll()
+        const updateBoard = await findBoard[0].update({type: 'Charcuterie'})
+
+        expect(updateBoard.type).toBe('Charcuterie')
+      })
+
+      test('Can Update Cheese', async() => { 
+        const findCheese = await Cheese.findAll()
+        const updateCheese = await findCheese[0].update({title: 'Triple Cream Brie', description: 'Triple Crème Brie is created using traditional French cheese making techniques that start with local milk, added cream, and a unique blend of cultures. The result is a brie style cheese that is smooth and creamy with slightly sweet, milky flavors and a velvety white rind.'})
+
+        expect(updateCheese.title).toBe('Triple Cream Brie')
+        expect(updateCheese.description).toBe('Triple Crème Brie is created using traditional French cheese making techniques that start with local milk, added cream, and a unique blend of cultures. The result is a brie style cheese that is smooth and creamy with slightly sweet, milky flavors and a velvety white rind.')
+       })
 
     // D- DELETE
+    test('Can Delete User', async() => { 
+        const newUser = await User.create({name: 'Betsy Bayliss', email: 'betsy.bayliss@multiverse.io'})
+        const findUser = await User.findAll()
+        const deleUser = await findUser[1].destroy()
+
+        expect(deleUser.name).toBe('Betsy Bayliss')
+     })
+
+     test('Can Delete Board', async() => {
+        const newBoard = await Board.create({type: 'Brownie', description: 'A chocolate brownie or simply a brownie is a square or rectangular chocolate baked confection. Brownies come in a variety of forms and may be either fudgy or cakey, depending on their density. Brownies often, but not always, have a glossy "skin" on their upper crust.', rating: 10})
+        const findBoard = await Board.findAll()
+        const deleBoard = await findBoard[1].destroy()
+
+        expect(deleBoard.type).toBe('Brownie')
+     })
+
+     test('Can Delete Cheese', async() => {
+        const newCheese = await Cheese.create({title: 'Caramel Brownies', description: 'Caramel brownies are made by stuffing fudgy brownies with caramel sauce in the middle and topping it off with a caramel drizzle. This type of brownie provides layers of chocolate and caramel in every delectable bite.'})
+        const findCheese = await Cheese.findAll()
+        const deleCheese = await findCheese[1].destroy()
+
+        expect(deleCheese.title).toBe('Caramel Brownies')
+     })
+
 })
