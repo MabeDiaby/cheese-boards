@@ -94,6 +94,25 @@ describe('User Cheese Boards', () => {
         expect(deleCheese.title).toBe('Caramel Brownies')
      })
 
+     //  One-to-many
+     test('User and Board models with a One-to-Many relationship', async() => {
+            let betsyBoard = await Board.create({type: 'Brownie',
+                description: 'Best brownies ever',
+                rating: 10})
+            let davidsBoard = await Board.create({type: 'Cheese',
+            description: 'Best cheeses ever',
+            rating: 10})
+    
+            let foundUser = await User.findAll()
+            let bbe = foundUser[0]
+            // console.log(bbe);
+            await bbe.addBoard(betsyBoard)
+            await bbe.addBoard(davidsBoard)
+    
+            let getBoards = await bbe.getBoards()
+            expect(getBoards.length).toBe(2)
+    })
+
      //  Many-to-many
      test('Board and Cheese models with a Many-to-Many relationship', async() => {
         let newestBoard = await Board.create({type: 'Brownie', description: 'A chocolate brownie or simply a brownie is a square or rectangular chocolate baked confection. Brownies come in a variety of forms and may be either fudgy or cakey, depending on their density. Brownies often, but not always, have a glossy "skin" on their upper crust.', rating: 10})
@@ -109,22 +128,6 @@ describe('User Cheese Boards', () => {
         let getBetsyBoard = await betsyBoard.getCheeses()
         expect(getBetsyBoard.length).toBe(2)
     })
-
-    //  One-to-many
-    //  test('Multiple Boards can be added to a User', async() => {
-    //     let newestUser = await User.create({name: 'David Todd', email: 'david.todd@multiverse.io'})
-    //     let newBoard = await Board.create({type:'Cheese', description: 'Three cheeses is usually enough, and the most weve ever done is five cheeses (thats a BIG cheese board).', rating: 7})
-    //     let newBoard2 = await Board.create({type: 'Crackers and Breads', description: 'A board with a buttery cracker, a very thin mild cracker, and a seedy, grainy cracker', rating: 10})
-
-    //     let findBoard = await Board.findAll()
-    //     let davidsBoard = findBoard[0]
-    //     await davidsBoard.addBoard(newBoard)
-    //     await davidsBoard.addBoard(newBoard2)
-    //     console.log(findBoard);
-
-    //     let getDavidsBoard = await davidsBoard.getBoards()
-    //     expect(getDavidsBoard[0].name).toBe('Cheese')
-    // })
 
     // Eager Loading
     test('Eager Loading', async() => { 
@@ -145,8 +148,8 @@ describe('User Cheese Boards', () => {
             ]
         })
 
-        console.log(davidsBoard[2].type);
-        expect(davidsBoard[2].type).toBe('David Todds Board')
-        expect(davidsBoard[2].cheeses.length).toBe(3)
+        console.log(davidsBoard[4].type);
+        expect(davidsBoard[4].type).toBe('David Todds Board')
+        expect(davidsBoard[4].cheeses.length).toBe(3)
     })
 })
