@@ -95,6 +95,7 @@ describe('User Cheese Boards', () => {
      })
 
      //  One-to-many
+    //  Multiple Boards can be added to a User.
      test('User and Board models with a One-to-Many relationship', async() => {
             let betsyBoard = await Board.create({type: 'Brownie',
                 description: 'Best brownies ever',
